@@ -15,9 +15,90 @@ const textDos = 'Velastegui' // string (es lo mismo)
 const bool = true // boolean
 const hijos = null // object
 
-console.log(numero)
-console.log(sueldo)
-console.log(text)
-console.log(textDos)
-console.log(bool)
-console.log(hijos)
+//console.log(typeof(numero))
+//console.log(typeof(sueldo))
+//console.log(typeof(text))
+//console.log(typeof(textDos))
+//console.log(typeof(bool))
+//console.log(typeof(hijos))
+
+// Truty y Falsy
+
+if(""){
+    console.log("String vacío es verdadero")
+} else {
+    console.log("String vacío es falso")
+}
+
+if("Daniel") {
+    console.log("String con datos es un truty")
+} else {
+    console.log("String con datos es un falsy")
+}
+
+if(-1){
+    console.log("Negativos truty")
+} else {
+    console.log("Negativos False")
+}
+
+if (0) {
+    console.log("0 es truty")
+} else {
+    console.log("0 es falsy")
+}
+
+if(1){
+    console.log("Positivos truty")
+} else {
+    console.log("Positivos False")
+}
+
+if(null){
+    console.log("NULL es truty")
+} else {
+    console.log("NULL es falsy")
+}
+
+if(undefined){
+    console.log("Undefined es truty")
+} else {
+    console.log("Undefined es falsy")
+}
+
+// Objetos JSON
+
+const daniel = {
+    "nombre": "Daniel",
+    "apellido": "Velastegui"
+}
+
+console.log(Object.keys(daniel))
+delete daniel.apellido
+console.log(Object.keys(daniel))
+
+// Copiar un objeto por valor y no por referencia
+const daniel2 = Object.assign({}, daniel)
+daniel2["notas"] = 2
+console.log(Object.keys(daniel))
+console.log(Object.keys(daniel2))
+
+// Arreglos
+arreglo = [1, 2, 3, 4, 5]
+
+arreglo.push(5)
+arreglo.pop()
+arreglo.unshift(0)
+arreglo.splice(3, 2, 7, 8)
+
+// Busca el primer elemento
+const indiceSiete = arreglo.indexOf(7) // si no lo encuentra devuelve -1
+console.log(indiceSiete)
+
+for (const numero of arreglo) {
+    console.log(numero)
+}
+
+for (const indice in arreglo) {
+    console.log(indice)
+}
