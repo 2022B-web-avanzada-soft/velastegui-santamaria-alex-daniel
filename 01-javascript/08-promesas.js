@@ -11,7 +11,7 @@ function leerArchivo(path){
     return new Promise(
         (resolve, reject) => {
             fs.readFile(
-                "./06-ejemplo.txt",
+                path,
                 "utf-8",
                 (error, contenido) => {
                     if(error){
