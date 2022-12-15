@@ -42,7 +42,8 @@ function escribirArchivo(path, nuevaData){
 }
 
 path = "./06-ejemplo.txt"
-leerArchivo(path)
+// Manejo de promesas con then y catch
+/*leerArchivo(path)
     .then(
         (data) => {
             return escribirArchivo(path, data + "\nLO LOGRAMOS!!!")
@@ -58,3 +59,26 @@ leerArchivo(path)
             console.log(error)
         }
     )
+*/
+
+// Manejo de promesas con ASYNC AWAIT
+
+async function asyncAwaitUno(path){
+    try{
+        const respuestaContenidoArchivo = await leerArchivo(path)
+        await escribirArchivo(path, respuestaContenidoArchivo + "\nAWAIT!!!")
+    }catch (error){
+        console.log(error)
+    }
+}
+
+const asyncAwaitDos = async function (){
+
+}
+
+const asyncAwaitTres = async () => {
+
+}
+
+asyncAwaitUno(path)
+
