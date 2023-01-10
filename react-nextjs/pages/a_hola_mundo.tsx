@@ -29,6 +29,11 @@ export default function a_hola_mundo(){
                 iteraciones={3}
                 mostrar={true}
                 url={'google.com'}></Componente>
+            <Componente
+                iteraciones={56}
+                mostrar={false}
+                url={'google.com'}></Componente>
         </>
+
     )
 }
