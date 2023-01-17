@@ -19,10 +19,12 @@
 
 import EstilosEjemplo from "../components/a_estilos/EstilosEjemplo";
 import Componente from "../components/b_componentes/Componente";
+import Layout from "../components/Layout";
 
 export default function a_hola_mundo(){
     return (
         <>
+            <Layout title="EPN | Hola Mundo"></Layout>
             <h1>Hola Mundo</h1>
             <EstilosEjemplo></EstilosEjemplo>
             <Componente
