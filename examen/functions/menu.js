@@ -31,14 +31,19 @@ class Menu {
         switch(option.option){
             case "create":
                 const characterInfo = await this.showCreateCharacterMenu();
-                const character = new Character(
-                    characterInfo.id,
-                    characterInfo.name,
-                    characterInfo.isMortal,
-                    characterInfo.birthdate,
-                    characterInfo.isMarried);
-                this.characters.push(character);
-                console.log("Personaje creado");
+                const existentCharacter = this.characters.find(character => character.id === idUpt.id);
+                if (existentCharacter){
+                    console.log("El personaje con esa ID ya existe");
+                }else{
+                    const character = new Character(
+                        characterInfo.id,
+                        characterInfo.name,
+                        characterInfo.isMortal,
+                        characterInfo.birthdate,
+                        characterInfo.isMarried);
+                    this.characters.push(character);
+                    console.log("Personaje creado");
+                }
                 await this.manageCRUDCharacterMenu();
                 break;
             case "read":
