@@ -47,10 +47,34 @@ class Menu {
                 await this.manageCRUDCharacterMenu();
                 break;
             case "update":
-                console.log("update");
+                const idUpt = await this.showSelectCharacterMenu();
+                const characterUpt = this.characters.find(character => character.id === idUpt.id);
+                if(characterUpt){
+                    console.log("El personaje es:");
+                    console.log(characterUpt);
+                    const characterInfoUpt = await this.showCreateCharacterMenu();
+                    characterUpt.name = characterInfoUpt.name;
+                    characterUpt.isMortal = characterInfoUpt.isMortal;
+                    characterUpt.birthdate = characterInfoUpt.birthdate;
+                    characterUpt.isMarried = characterInfoUpt.isMarried;
+                    console.log("Personaje actualizado");
+                }else{
+                    console.log("Personaje no encontrado");
+                }
+                await this.manageCRUDCharacterMenu();
                 break;
             case "delete":
-                console.log("delete");
+                const idDel = await this.showSelectCharacterMenu();
+                const characterDel = this.characters.find(character => character.id === idDel.id);
+                if(characterDel){
+                    console.log("El personaje es:");
+                    console.log(characterDel);
+                    this.characters = this.characters.filter(character => character.id !== idDel.id);
+                    console.log("Personaje eliminado");
+                }else{
+                    console.log("Personaje no encontrado");
+                }
+                await this.manageCRUDCharacterMenu();
                 break;
             case "return":
                 await this.manageMainMenu();
@@ -147,6 +171,16 @@ class Menu {
                 type: "confirm",
                 name: "isMarried",
                 message: "¿El personaje está casado?"
+            }
+        ]);
+    }
+
+    async showSelectCharacterMenu(){
+        return await inquirer.prompt([
+            {
+                type: "number",
+                name: "id",
+                message: "ID del personaje:"
             }
         ]);
     }
