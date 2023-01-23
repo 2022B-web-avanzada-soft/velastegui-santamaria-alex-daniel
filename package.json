@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "inquirer-date-prompt": "^2.0.0"
+  }
+}
