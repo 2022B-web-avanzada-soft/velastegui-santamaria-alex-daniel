@@ -12,16 +12,20 @@ class Menu {
     }
     // Manjadores de Menus
     async manageMainMenu(){
-        const option = await this.showMainMenu();
-        switch(option.option){
-            case "crud_anime":
-                await this.manageCRUDAnimeMenu();
-                break;
-            case "crud_character":
-                await this.manageCRUDCharacterMenu();
-                break;
-            case "exit":
-                break;
+        try{
+            let option = await this.showMainMenu();
+            switch(option.option){
+                case "crud_anime":
+                    await this.manageCRUDAnimeMenu();
+                    break;
+                case "crud_character":
+                    await this.manageCRUDCharacterMenu();
+                    break;
+                case "exit":
+                    break;
+            }
+        }catch(error){
+            console.error("Ha existido un error leyendo la opción");
         }
         return [this.animes, this.characters];
     }
