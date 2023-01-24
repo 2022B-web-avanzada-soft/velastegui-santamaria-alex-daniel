@@ -1,1 +1,1 @@
-[{"id":1,"name":"Goku","isMortal":false,"birthdate":"2018-01-23T23:53:43.645Z","isMarried":false}]
+[{"id":1,"name":"Goku","isMortal":false,"birthdate":"2018-01-23T23:53:43.645Z","isMarried":false},{"id":2,"name":"Bulma","isMortal":true,"birthdate":"2023-01-24T01:01:41.456Z","isMarried":true}]

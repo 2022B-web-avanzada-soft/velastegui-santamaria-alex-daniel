@@ -9,4 +9,4 @@ class Anime{
     }
 }
 
-module.exports = Anime;
+module.exports.Anime = Anime;

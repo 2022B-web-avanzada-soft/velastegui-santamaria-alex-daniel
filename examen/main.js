@@ -1,6 +1,4 @@
 const {leerArchivo, escribirArchivo} = require("./functions/manejoArchivos")
-const {Anime} = require("./entities/anime")
-const {Character} = require("./entities/character")
 const {Menu} = require("./functions/menu")
 
 const main = async () => {

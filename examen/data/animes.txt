@@ -1,1 +1,1 @@
-[]
+[{"id":1,"name":"Dragon Ball Z Kai","isOnAir":true,"releaseDate":"2023-01-24T01:03:44.266Z","capNumber":500,"characters":[{"id":1,"name":"Goku","isMortal":false,"birthdate":"2018-01-23T23:53:43.645Z","isMarried":false}]}]
