@@ -6,7 +6,7 @@ export interface Todo{
 }
 
 export async function TodoHttp(id?: string): Promise<Todo[]> {
-    const url = `https://jsonplaceholder.typicode.com/todos ${id ? '/' + id : ''}`;
+    const url = `https://jsonplaceholder.typicode.com/todos${id ? '/' + id : ''}`;
     const respuesta = await fetch(url);
     return (await respuesta.json()) as Todo[];
 }
