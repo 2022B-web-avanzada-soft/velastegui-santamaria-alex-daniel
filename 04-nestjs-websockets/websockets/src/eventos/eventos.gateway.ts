@@ -25,7 +25,7 @@ export class EventosGateway{
         console.log(message);
         socket.broadcast
             .emit(
-                'escucherEventoHola',
+                'escucharEventoHola',
                 {
                     mensaje: 'Hola desde el servidor ' + message.mensaje
                 }
