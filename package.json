@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "inquirer-date-prompt": "^2.0.0",
-    "react-hook-form": "^7.42.1"
-  }
-}
