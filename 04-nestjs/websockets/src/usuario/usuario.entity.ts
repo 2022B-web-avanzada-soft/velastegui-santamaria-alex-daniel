@@ -2,8 +2,9 @@ import
 {
     Entity,
     PrimaryGeneratedColumn,
-    Column
+    Column, OneToMany
 } from 'typeorm';
+import {Nota} from "../nota/nota.entity";
 
 @Entity('epn_usuario')
 export class Usuario {
@@ -32,4 +33,6 @@ export class Usuario {
         comment: 'U: Usuario, A: Administrador',
     })
     rol: string;
+    @OneToMany(type => Nota, nota => nota.usuario)
+    notas: Nota[];
 }
