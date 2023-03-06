@@ -1,11 +1,11 @@
-import {IsInt, IsNotEmpty, IsString} from "@nestjs/class-validator";
+import {IsBoolean, IsInt, IsNotEmpty, IsString} from "@nestjs/class-validator";
 
 export class CreateAnimeDto {
     @IsNotEmpty()
     @IsString()
     name: string;
     @IsNotEmpty()
-    @IsString()
+    @IsBoolean()
     isOnAir: boolean;
     @IsNotEmpty()
     @IsString()

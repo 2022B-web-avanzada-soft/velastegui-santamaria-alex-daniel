@@ -26,7 +26,7 @@ export class Anime {
     })
     capNumber: number;
     @OneToMany(
-        type => Character,
+        () => Character,
         character => character.anime,
     )
     characters: Character[];

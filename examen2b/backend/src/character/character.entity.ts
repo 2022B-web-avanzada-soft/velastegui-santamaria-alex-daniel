@@ -17,6 +17,7 @@ export class Character {
     isMortal: boolean;
     @Column({
         type: "date",
+        name: "birth_date",
     })
     birthDate: Date;
     @Column({
@@ -25,7 +26,7 @@ export class Character {
     })
     isMarried: boolean;
     @ManyToOne(
-        type => Anime,
+        () => Anime,
         anime => anime.characters,
     )
     @JoinColumn({
