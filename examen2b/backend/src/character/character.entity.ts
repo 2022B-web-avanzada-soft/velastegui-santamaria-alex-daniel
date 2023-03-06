@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Anime} from "../anime/anime.entity";
 
 @Entity()
@@ -12,6 +12,7 @@ export class Character {
     name: string;
     @Column({
         type: "boolean",
+        name: "is_mortal",
     })
     isMortal: boolean;
     @Column({
@@ -20,11 +21,15 @@ export class Character {
     birthDate: Date;
     @Column({
         type: "boolean",
+        name: "is_married",
     })
     isMarried: boolean;
     @ManyToOne(
         type => Anime,
         anime => anime.characters,
     )
+    @JoinColumn({
+        name: "anime_id",
+    })
     anime: Anime;
 }

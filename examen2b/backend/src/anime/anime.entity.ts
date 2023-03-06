@@ -12,14 +12,17 @@ export class Anime {
     name: string;
     @Column({
         type: "boolean",
+        name: "is_on_air",
     })
     isOnAir: boolean;
     @Column({
         type: "date",
+        name: "release_date",
     })
     releaseDate: Date;
     @Column({
         type: "int",
+        name: "cap_number",
     })
     capNumber: number;
     @OneToMany(
