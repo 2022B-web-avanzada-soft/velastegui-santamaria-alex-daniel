@@ -27,7 +27,7 @@ export class CharacterService {
         });
     }
 
-    create(character: CreateCharacterDto): Promise<Character> {
+    create(character: any): Promise<any> {
         return this._characterRepository.save(character);
     }
 

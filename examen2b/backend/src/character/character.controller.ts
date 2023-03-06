@@ -30,7 +30,7 @@ export class CharacterController {
         newCharacter.isMortal = character.isMortal;
         newCharacter.isMarried = character.isMarried;
         newCharacter.birthDate = character.birthDate;
-        newCharacter.animeId = character.animeId;
+        newCharacter.anime = character.anime;
         const errors = await validate(newCharacter);
         if (errors.length > 0) {
             console.error(errors);

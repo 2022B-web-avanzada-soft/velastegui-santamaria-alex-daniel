@@ -15,5 +15,5 @@ export class CreateCharacterDto{
     isMarried: boolean;
     @IsNotEmpty()
     @IsNumber()
-    animeId: number;
+    anime: number;
 }
