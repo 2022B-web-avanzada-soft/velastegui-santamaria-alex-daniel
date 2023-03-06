@@ -13,14 +13,17 @@ export class CharacterService {
     ) {}
 
     findAll(): Promise<Character[]> {
-        return this._characterRepository.find();
+        return this._characterRepository.find({
+            relations: ['anime']
+        });
     }
 
     findById(id: number): Promise<Character> {
         return this._characterRepository.findOne({
             where: {
                 id: id
-            }
+            },
+            relations: ['anime']
         });
     }
 

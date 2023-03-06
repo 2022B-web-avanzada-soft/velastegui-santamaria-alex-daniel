@@ -16,7 +16,7 @@ export class CharacterController {
 
     @Get(':id')
     @HttpCode(200)
-    async findById(id: number) {
+    async findById(@Param('id', ParseIntPipe) id: number) {
         return this.characterService.findById(id);
     }
 
