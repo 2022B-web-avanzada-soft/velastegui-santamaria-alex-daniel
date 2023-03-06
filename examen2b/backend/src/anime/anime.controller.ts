@@ -2,6 +2,7 @@ import {BadRequestException, Body, Controller, Get, HttpCode, Param, ParseIntPip
 import {AnimeService} from "./anime.service";
 import {CreateAnimeDto} from "./dto/create-anime";
 import {validate} from "@nestjs/class-validator";
+import {UpdateAnimeDto} from "./dto/update-anime";
 
 @Controller('anime')
 export class AnimeController {
@@ -45,7 +46,7 @@ export class AnimeController {
         @Body() anime: any,
         @Param('id', ParseIntPipe) id: number
     ) {
-        const modifiedAnime = new CreateAnimeDto();
+        const modifiedAnime = new UpdateAnimeDto();
         modifiedAnime.name = anime.name;
         modifiedAnime.isOnAir = anime.isOnAir;
         modifiedAnime.releaseDate = anime.releaseDate;
