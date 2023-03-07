@@ -27,6 +27,10 @@ export class CharacterService {
         });
     }
 
+    delete(id: number): Promise<any> {
+        return this._characterRepository.delete(id)
+    }
+
     create(character: any): Promise<any> {
         return this._characterRepository.save(character);
     }

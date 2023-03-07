@@ -1,4 +1,15 @@
-import {BadRequestException, Body, Controller, Get, HttpCode, Param, ParseIntPipe, Post, Put} from "@nestjs/common";
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put
+} from "@nestjs/common";
 import {CharacterService} from "./character.service";
 import {CreateCharacterDto} from "./dto/create-character";
 import {validate} from "@nestjs/class-validator";
@@ -60,5 +71,11 @@ export class CharacterController {
             })
         }
         return this.characterService.update(id, character);
+    }
+
+    @Delete(':id')
+    @HttpCode(204)
+    async delete(@Param('id', ParseIntPipe) id: number) {
+        return this.characterService.delete(id);
     }
 }

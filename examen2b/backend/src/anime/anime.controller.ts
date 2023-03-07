@@ -1,4 +1,15 @@
-import {BadRequestException, Body, Controller, Get, HttpCode, Param, ParseIntPipe, Post, Put} from "@nestjs/common";
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put
+} from "@nestjs/common";
 import {AnimeService} from "./anime.service";
 import {CreateAnimeDto} from "./dto/create-anime";
 import {validate} from "@nestjs/class-validator";
@@ -59,5 +70,11 @@ export class AnimeController {
             })
         }
         return this._animeService.update(id, modifiedAnime);
+    }
+
+    @Delete(':id')
+    @HttpCode(204)
+    delete(@Param('id', ParseIntPipe) id: number) {
+        return this._animeService.delete(id);
     }
 }

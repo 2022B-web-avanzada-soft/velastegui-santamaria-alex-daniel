@@ -27,6 +27,10 @@ export class AnimeService {
         });
     }
 
+    delete(id: number): any {
+        return this._animeRepository.delete(id);
+    }
+
     create(anime: CreateAnimeDto): Promise<Anime> {
         return this._animeRepository.save(anime);
     }

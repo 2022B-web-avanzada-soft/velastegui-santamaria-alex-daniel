@@ -14,6 +14,7 @@ import {useForm, SubmitHandler} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {CharacterInterface} from "@/interfaces/character-interface";
 import {AnimeInterface} from "@/interfaces/anime-interface";
+import axios from "axios";
 
 const URL = "http://localhost:3030/character";
 type Inputs = {
@@ -49,7 +50,7 @@ export default function () {
                 <Grid item xs={12} bgcolor={"#ECEBEB"} padding={"1rem"} sx={{
                     borderRadius: "1rem",
                     marginBottom: "1rem",
-                }}>
+                }} key={character.id}>
                     <Grid container>
                         <Grid item xs={12} md={6}>
                             <h2 style={{color: "#6F6F6F"}}>{character.name}</h2>
@@ -71,7 +72,7 @@ export default function () {
                                 backgroundColor: "#e5625e",
                             }} sx={{
                                 marginLeft: "1rem",
-                            }}>
+                            }} onClick={(event) => {handleDeleteInstance(character.id)}}>
                                 Eliminar
                             </Button>
                         </Grid>
@@ -89,6 +90,15 @@ export default function () {
     }
 
 
+    const handleDeleteInstance = (characterId: number) => {
+        axios.delete(`${URL}/${characterId}`).then(r => {
+            const newCharacters = characters.filter((character: CharacterInterface) => character.id !== characterId);
+            setCharacters(newCharacters);
+        }).catch(e => {
+            console.log(e);
+        })
+
+    }
     const handleCancelCreateInstanceDialog = () => {
         setOpenCreateInstanceDialog(false);
     };
