@@ -28,6 +28,9 @@ export class Character {
     @ManyToOne(
         () => Anime,
         anime => anime.characters,
+        {
+            onDelete: "SET NULL",
+        }
     )
     @JoinColumn({
         name: "anime_id",

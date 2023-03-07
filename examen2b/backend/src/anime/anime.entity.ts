@@ -28,6 +28,9 @@ export class Anime {
     @OneToMany(
         () => Character,
         character => character.anime,
+        {
+            onDelete: "SET NULL",
+        }
     )
     characters: Character[];
 }
