@@ -11,8 +11,11 @@ import {
     Checkbox, FormControlLabel
 } from "@mui/material";
 import {useForm, SubmitHandler} from "react-hook-form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {AnimeInterface} from "@/interfaces/anime-interface";
+import {CharacterInterface} from "@/interfaces/character-interface";
+
+const URL = "http://localhost:3030/anime";
 
 type Inputs = {
     id:number,
@@ -20,29 +23,25 @@ type Inputs = {
     isOnAir: boolean;
     releaseDate: Date;
     capNumber: number;
-    characters: string;
+    characters: CharacterInterface[];
 };
 
 export default function () {
     const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
     const [openCreateInstanceDialog, setOpenCreateInstanceDialog] = useState(false);
-    const naruto: AnimeInterface = {
-        id: 1,
-        name: "Naruto",
-        isOnAir: false,
-        releaseDate: "2002-10-03",
-        capNumber: 220,
-        characters: ["Naruto", "Sasuke", "Sakura" ],
-    }
-    const dragonball: AnimeInterface = {
-        id: 2,
-        name: "Dragon Ball",
-        isOnAir: false,
-        releaseDate: "1986-02-26",
-        capNumber: 153,
-        characters: ["Goku", "Vegeta", "Gohan" ],
-    }
-    const [animes, setAnimes] = useState([naruto, dragonball] as AnimeInterface[]);
+    const [animes, setAnimes] = useState([] as AnimeInterface[]);
+
+    useEffect(
+        () => {
+            const getAnimes = async () => {
+                const response = await fetch(URL);
+                const animes = await response.json();
+                setAnimes(animes);
+            }
+            getAnimes();
+        },
+        []
+    )
 
     function AnimeCards(): JSX.Element[]  {
         const returnCards: JSX.Element[] = [];

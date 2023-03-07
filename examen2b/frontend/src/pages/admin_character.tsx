@@ -11,10 +11,11 @@ import {
     Checkbox, FormControlLabel
 } from "@mui/material";
 import {useForm, SubmitHandler} from "react-hook-form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {CharacterInterface} from "@/interfaces/character-interface";
 import {AnimeInterface} from "@/interfaces/anime-interface";
 
+const URL = "http://localhost:3030/character";
 type Inputs = {
     id: number;
     name: string;
@@ -27,25 +28,23 @@ type Inputs = {
 export default function () {
     const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
     const [openCreateInstanceDialog, setOpenCreateInstanceDialog] = useState(false);
-    const naruto: CharacterInterface = {
-        id: 1,
-        name: "Naruto",
-        isMortal: false,
-        birthDate: "2002-10-03",
-        isMarried: false,
-    }
-    const goku: CharacterInterface = {
-        id: 2,
-        name: "Goku",
-        isMortal: false,
-        birthDate: "1986-02-26",
-        isMarried: false,
-    }
-    const [characters, setCharacters] = useState([naruto, goku] as CharacterInterface[]);
+    const [characters, setCharacters] = useState([] as CharacterInterface[]);
+
+    useEffect(
+        () => {
+            const getCharacters = async () => {
+                const response = await fetch(URL);
+                const characters = await response.json();
+                setCharacters(characters);
+            }
+            getCharacters();
+        },
+        []
+    )
 
     function CharacterCards(): JSX.Element[]  {
         const returnCards: JSX.Element[] = [];
-        characters.forEach((anime: CharacterInterface) => {
+        characters.forEach((character: CharacterInterface) => {
             returnCards.push(
                 <Grid item xs={12} bgcolor={"#ECEBEB"} padding={"1rem"} sx={{
                     borderRadius: "1rem",
@@ -53,7 +52,7 @@ export default function () {
                 }}>
                     <Grid container>
                         <Grid item xs={12} md={6}>
-                            <h2 style={{color: "#6F6F6F"}}>{anime.name}</h2>
+                            <h2 style={{color: "#6F6F6F"}}>{character.name}</h2>
                         </Grid>
                         <Grid item xs={12} md={6} sx={{
                             display: "flex",
@@ -77,9 +76,10 @@ export default function () {
                             </Button>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <p style={{color: "#6F6F6F"}}><strong>Fecha de nacimiento: </strong> {anime.birthDate}</p>
-                            <p style={{color: "#6F6F6F"}}><strong>Es mortal: </strong>{anime.isMortal? "Si" : "No"}</p>
-                            <p style={{color: "#6F6F6F"}}><strong>Está casado: </strong>{anime.isMarried? "Si" : "No"}</p>
+                            <p style={{color: "#6F6F6F"}}><strong>Fecha de nacimiento: </strong> {character.birthDate}</p>
+                            <p style={{color: "#6F6F6F"}}><strong>Es mortal: </strong>{character.isMortal? "Si" : "No"}</p>
+                            <p style={{color: "#6F6F6F"}}><strong>Está casado: </strong>{character.isMarried? "Si" : "No"}</p>
+                            <p style={{color: "#6F6F6F"}}><strong>Anime: </strong>{character.anime?.name}</p>
                         </Grid>
                     </Grid>
                 </Grid>
