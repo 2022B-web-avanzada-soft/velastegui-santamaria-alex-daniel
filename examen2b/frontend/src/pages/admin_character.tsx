@@ -8,13 +8,14 @@ import {
     Grid,
     TextField,
     DialogContentText,
-    Checkbox, FormControlLabel
+    Checkbox, FormControlLabel, Select, InputLabel, MenuItem
 } from "@mui/material";
 import {useForm, SubmitHandler} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {CharacterInterface} from "@/interfaces/character-interface";
 import {AnimeInterface} from "@/interfaces/anime-interface";
 import axios from "axios";
+import SelectInput from "@mui/material/Select/SelectInput";
 
 const URL = "http://localhost:3030/character";
 type Inputs = {
@@ -27,9 +28,10 @@ type Inputs = {
 };
 
 export default function () {
-    const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
+    const {register, handleSubmit, formState: {errors, isValid}} = useForm<Inputs>();
     const [openCreateInstanceDialog, setOpenCreateInstanceDialog] = useState(false);
     const [characters, setCharacters] = useState([] as CharacterInterface[]);
+    const [animes, setAnimes] = useState([] as AnimeInterface[]);
 
     useEffect(
         () => {
@@ -38,7 +40,13 @@ export default function () {
                 const characters = await response.json();
                 setCharacters(characters);
             }
+            const getAnimes = async () => {
+                const response = await fetch("http://localhost:3030/anime");
+                const animes = await response.json();
+                setAnimes(animes);
+            }
             getCharacters();
+            getAnimes();
         },
         []
     )
@@ -103,8 +111,22 @@ export default function () {
         setOpenCreateInstanceDialog(false);
     };
     const handleAcceptCreateInstanceDialog: SubmitHandler<Inputs> = data => {
-        console.log(data);
-        setOpenCreateInstanceDialog(false);
+        const newCharacter: CharacterInterface = {
+            id: data.id,
+            name: data.name,
+            isMortal: data.isMortal,
+            birthDate: data.birthDate,
+            isMarried: data.isMarried,
+            anime: data.anime,
+        }
+        axios.post(URL, newCharacter).then(r => {
+            const newCharacters = characters.concat(newCharacter);
+            setCharacters(newCharacters);
+            setOpenCreateInstanceDialog(false);
+        }).catch(e => {
+            console.log(e);
+        });
+
     };
     const handleCreateInstance = () => {
         console.log("Create instance")
@@ -153,7 +175,7 @@ export default function () {
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Nombre del anime"
+                        label="Nombre del personaje"
                         type="text"
                         fullWidth
                         variant="outlined"
@@ -163,13 +185,25 @@ export default function () {
                     <TextField
                         margin="dense"
                         id="birthDate"
-                        label="Fecha de estreno"
                         type="date"
                         fullWidth
                         variant="outlined"
                         {...register("birthDate", {required: "Este campo es requerido"})}
                     />
                     {errors.birthDate && <><span>Este campo es requerido</span><br/></>}
+                    <Select
+                        margin="dense"
+                        labelId="Anime"
+                        id="anime"
+                        label="Anime"
+                        fullWidth
+                        variant="outlined"
+                        {...register("anime", {required: "Este campo es requerido"})}>
+                        {animes.map((anime: AnimeInterface) => {
+                            return <MenuItem key={anime.id} value={anime.id}>{anime.name}</MenuItem>
+                        })
+                        }
+                    </Select>
                     <FormControlLabel
                         id={"isMortal"}
                         control={<Checkbox defaultChecked/>}
@@ -185,7 +219,7 @@ export default function () {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancelCreateInstanceDialog}>Cancel</Button>
-                    <Button onClick={handleSubmit(handleAcceptCreateInstanceDialog)}>Subscribe</Button>
+                    <Button onClick={handleSubmit(handleAcceptCreateInstanceDialog)} disabled={!isValid}>Subscribe</Button>
                 </DialogActions>
             </Dialog>
         </Layout>

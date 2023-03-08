@@ -4,7 +4,7 @@ export interface AnimeInterface {
     id:number,
     name: string;
     isOnAir: boolean;
-    releaseDate: string;
+    releaseDate: Date;
     capNumber: number;
     characters?: CharacterInterface[];
 }

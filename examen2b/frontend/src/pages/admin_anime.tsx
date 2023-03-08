@@ -28,8 +28,9 @@ type Inputs = {
 };
 
 export default function () {
-    const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
+    const {register, handleSubmit, formState: {errors, isValid}} = useForm<Inputs>();
     const [openCreateInstanceDialog, setOpenCreateInstanceDialog] = useState(false);
+    const [anime, setAnime] = useState({} as AnimeInterface);
     const [animes, setAnimes] = useState([] as AnimeInterface[]);
 
     useEffect(
@@ -65,7 +66,7 @@ export default function () {
                                 backgroundColor: "#e5625e",
                             }}  sx={{
                                 marginLeft: "1rem",
-                            }}>
+                            }} onClick={(e) => hanldeUpdateInstanceDialog(anime)}>
                                 Editar
                             </Button>
                             <Button variant={"contained"} style={{
@@ -78,7 +79,7 @@ export default function () {
                             </Button>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <p style={{color: "#6F6F6F"}}><strong>Fecha de estreno: </strong> {anime.releaseDate}</p>
+                            <p style={{color: "#6F6F6F"}}><strong>Fecha de estreno: </strong> {anime.releaseDate.toString()}</p>
                             <p style={{color: "#6F6F6F"}}><strong>Capítulos: </strong>{anime.capNumber}</p>
                             <p style={{color: "#6F6F6F"}}><strong>Está al aire: </strong>{anime.isOnAir? "Si" : "No"}</p>
                         </Grid>
@@ -99,16 +100,113 @@ export default function () {
         })
 
     }
+
+    const hanldeUpdateInstanceDialog = (anime: AnimeInterface) => {
+        setAnime(anime);
+        setOpenCreateInstanceDialog(true);
+    }
+
     const handleCancelCreateInstanceDialog = () => {
+        setAnime({} as AnimeInterface);
         setOpenCreateInstanceDialog(false);
     };
     const handleAcceptCreateInstanceDialog: SubmitHandler<Inputs> = data => {
-        console.log(data);
-        setOpenCreateInstanceDialog(false);
+        const newAnime: AnimeInterface = {
+            id: 1,
+            name: data.name,
+            isOnAir: data.isOnAir,
+            releaseDate: data.releaseDate,
+            capNumber: +data.capNumber,
+        }
+        axios.post(URL, newAnime).then(r => {
+            setAnimes([...animes, r.data]);
+            setOpenCreateInstanceDialog(false);
+        }).catch(e => {
+            console.log(e);
+        });
     };
+    const handleAcceptUpdateInstanceDialog: SubmitHandler<Inputs> = data => {
+        const newAnime: AnimeInterface = {
+            id: anime.id,
+            name: data.name,
+            isOnAir: data.isOnAir,
+            releaseDate: data.releaseDate,
+            capNumber: +data.capNumber,
+        }
+        axios.put(`${URL}/${anime.id}`, newAnime).then(r => {
+            const newAnimes = animes.map((anime: AnimeInterface) => {
+                if (anime.id === r.data.id) {
+                    return r.data;
+                }
+                return anime;
+            });
+            setAnimes(newAnimes);
+            setOpenCreateInstanceDialog(false);
+        }).catch(e => {
+            console.log(e);
+        });
+    }
+
     const handleCreateInstance = () => {
         console.log("Create instance")
         setOpenCreateInstanceDialog(true);
+    }
+
+    const renderDataDialog = (anime?: AnimeInterface) => {
+        return (
+            <Dialog open={openCreateInstanceDialog}>
+                <DialogTitle>Crear un nuevo Anime</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Los siguientes datos son requeridos para registrar un nuevo anime.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        defaultValue={anime?.name}
+                        id="name"
+                        label="Nombre del anime"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        {...register("name", {required: "Este campo es requerido"})}
+                    />
+                    {errors.name && <span>Este campo es requerido</span>}
+                    <TextField
+                        margin="dense"
+                        id="capNumber"
+                        label="Numero de capitulos"
+                        defaultValue={anime?.capNumber}
+                        type="integer"
+                        fullWidth
+                        variant="outlined"
+                        {...register("capNumber", {required: "Este campo es requerido"})}
+                    />
+                    {errors.capNumber && <span>Este campo es requerido</span>}
+                    <TextField
+                        margin="dense"
+                        id="releaseDate"
+                        defaultValue={anime?.releaseDate}
+                        type="date"
+                        fullWidth
+                        variant="outlined"
+                        {...register("releaseDate", {required: "Este campo es requerido"})}
+                    />
+                    {errors.releaseDate && <><span>Este campo es requerido</span><br/></>}
+                    <FormControlLabel
+                        id={"isOnAir"}
+                        control={<Checkbox/>}
+                        label="¿Está al aire?"
+                        {...register("isOnAir")}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCancelCreateInstanceDialog}>Cancelar</Button>
+                    {anime?.name && <Button onClick={handleSubmit(handleAcceptUpdateInstanceDialog)} disabled={!isValid}>Actualizar</Button>}
+                    {!anime?.name && <Button onClick={handleSubmit(handleAcceptCreateInstanceDialog)} disabled={!isValid}>Crear</Button>}
+                </DialogActions>
+            </Dialog>
+        )
     }
 
     return (
@@ -143,58 +241,7 @@ export default function () {
                     </Grid>
                 </Grid>
             </Grid>
-            <Dialog open={openCreateInstanceDialog}>
-                <DialogTitle>Crear un nuevo Anime</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Los siguientes datos son requeridos para registrar un nuevo anime.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Nombre del anime"
-                        type="text"
-                        fullWidth
-                        variant="outlined"
-                        {...register("name", {required: "Este campo es requerido"})}
-                    />
-                    {errors.name && <span>Este campo es requerido</span>}
-                    <TextField
-                        margin="dense"
-                        id="capNumber"
-                        label="Numero de capitulos"
-                        type="integer"
-                        fullWidth
-                        variant="outlined"
-                        {...register("capNumber", {required: "Este campo es requerido"})}
-                    />
-                    {errors.capNumber && <span>Este campo es requerido</span>}
-                    <TextField
-                        margin="dense"
-                        id="releaseDate"
-                        label="Fecha de estreno"
-                        type="date"
-                        fullWidth
-                        variant="outlined"
-                        {...register("releaseDate", {required: "Este campo es requerido"})}
-                    />
-                    {errors.releaseDate && <><span>Este campo es requerido</span><br/></>}
-                    <FormControlLabel
-                        id={"isOnAir"}
-                        control={<Checkbox defaultChecked/>}
-                        label="¿Está al aire?"
-                        {...register("isOnAir")}
-                    />
-                    <DialogContentText>
-                        Ha continuacion coloque las ciudades que ha visitado separadas por comas.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCancelCreateInstanceDialog}>Cancel</Button>
-                    <Button onClick={handleSubmit(handleAcceptCreateInstanceDialog)}>Subscribe</Button>
-                </DialogActions>
-            </Dialog>
+            {renderDataDialog(anime)}
         </Layout>
     )
 }

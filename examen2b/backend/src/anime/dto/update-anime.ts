@@ -1,11 +1,11 @@
-import {IsInt, IsOptional, IsString} from "@nestjs/class-validator";
+import {IsBoolean, IsInt, IsOptional, IsString} from "@nestjs/class-validator";
 
 export class UpdateAnimeDto {
     @IsOptional()
     @IsString()
     name: string;
     @IsOptional()
-    @IsString()
+    @IsBoolean()
     isOnAir: boolean;
     @IsOptional()
     @IsString()
