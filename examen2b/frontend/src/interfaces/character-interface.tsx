@@ -6,5 +6,5 @@ export interface CharacterInterface {
     isMortal: boolean;
     birthDate: string;
     isMarried: boolean;
-    anime?: AnimeInterface;
+    anime?: AnimeInterface | number;
 }

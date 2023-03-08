@@ -195,7 +195,7 @@ export default function () {
                     {errors.releaseDate && <><span>Este campo es requerido</span><br/></>}
                     <FormControlLabel
                         id={"isOnAir"}
-                        control={<Checkbox/>}
+                        control={<Checkbox defaultChecked={anime?.isOnAir}/>}
                         label="¿Está al aire?"
                         {...register("isOnAir")}
                     />

@@ -24,7 +24,7 @@ type Inputs = {
     isMortal: boolean;
     birthDate: string;
     isMarried: boolean;
-    anime?: AnimeInterface;
+    anime?: number;
 };
 
 export default function () {
@@ -32,6 +32,7 @@ export default function () {
     const [openCreateInstanceDialog, setOpenCreateInstanceDialog] = useState(false);
     const [characters, setCharacters] = useState([] as CharacterInterface[]);
     const [animes, setAnimes] = useState([] as AnimeInterface[]);
+    const [character, setCharacter] = useState({} as CharacterInterface);
 
     useEffect(
         () => {
@@ -72,7 +73,7 @@ export default function () {
                                 backgroundColor: "#e5625e",
                             }}  sx={{
                                 marginLeft: "1rem",
-                            }}>
+                            }} onClick={(e) => {handleEditInstance(character)}}>
                                 Editar
                             </Button>
                             <Button variant={"contained"} style={{
@@ -108,9 +109,11 @@ export default function () {
 
     }
     const handleCancelCreateInstanceDialog = () => {
+        setCharacter({} as CharacterInterface)
         setOpenCreateInstanceDialog(false);
     };
     const handleAcceptCreateInstanceDialog: SubmitHandler<Inputs> = data => {
+
         const newCharacter: CharacterInterface = {
             id: data.id,
             name: data.name,
@@ -120,6 +123,7 @@ export default function () {
             anime: data.anime,
         }
         axios.post(URL, newCharacter).then(r => {
+            newCharacter.anime = animes.find((anime: AnimeInterface) => anime.id === newCharacter.anime);
             const newCharacters = characters.concat(newCharacter);
             setCharacters(newCharacters);
             setOpenCreateInstanceDialog(false);
@@ -128,9 +132,103 @@ export default function () {
         });
 
     };
+    const handleUpdateCreateInstanceDialog: SubmitHandler<Inputs> = data => {
+        const newCharacter: CharacterInterface = {
+            id: data.id,
+            name: data.name,
+            isMortal: data.isMortal,
+            birthDate: data.birthDate,
+            isMarried: data.isMarried,
+            anime: data.anime,
+        }
+        axios.put(`${URL}/${newCharacter.id}`, newCharacter).then(r => {
+            newCharacter.anime = animes.find((anime: AnimeInterface) => anime.id === newCharacter.anime);
+            const newCharacters = characters.map((character: CharacterInterface) => {
+                if (character.id === newCharacter.id) {
+                    return newCharacter;
+                }
+                return character;
+            });
+            setCharacters(newCharacters);
+            setCharacter({} as CharacterInterface)
+            setOpenCreateInstanceDialog(false);
+        }).catch(e => {
+            console.log(e);
+        });
+    }
     const handleCreateInstance = () => {
         console.log("Create instance")
         setOpenCreateInstanceDialog(true);
+    }
+    const handleEditInstance = (character: CharacterInterface) => {
+        setCharacter(character);
+        setOpenCreateInstanceDialog(true);
+    }
+
+    const openDataDialog = (character: CharacterInterface) => {
+        return(
+            <Dialog open={openCreateInstanceDialog}>
+                <DialogTitle>Crear un nuevo Anime</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Los siguientes datos son requeridos para registrar un nuevo anime.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Nombre del personaje"
+                        defaultValue={character.name}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        {...register("name", {required: "Este campo es requerido"})}
+                    />
+                    {errors.name && <span>Este campo es requerido</span>}
+                    <TextField
+                        margin="dense"
+                        id="birthDate"
+                        defaultValue={character.birthDate}
+                        type="date"
+                        fullWidth
+                        variant="outlined"
+                        {...register("birthDate", {required: "Este campo es requerido"})}
+                    />
+                    {errors.birthDate && <><span>Este campo es requerido</span><br/></>}
+                    <Select
+                        margin="dense"
+                        labelId="Anime"
+                        id="anime"
+                        label="Anime"
+                        defaultValue={character.anime?.id}
+                        fullWidth
+                        variant="outlined"
+                        {...register("anime", {required: "Este campo es requerido"})}>
+                        {animes.map((anime: AnimeInterface) => {
+                            return <MenuItem key={anime.id} value={anime.id}>{anime.name}</MenuItem>
+                        })
+                        }
+                    </Select>
+                    <FormControlLabel
+                        id={"isMortal"}
+                        control={<Checkbox defaultChecked={character.isMortal}/>}
+                        label="¿Es Mortal?"
+                        {...register("isMortal")}
+                    />
+                    <FormControlLabel
+                        id={"isMarried"}
+                        control={<Checkbox defaultChecked={character.isMarried}/>}
+                        label="¿Está casado?"
+                        {...register("isMarried")}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCancelCreateInstanceDialog}>Cancelar</Button>
+                    {character.id? <Button onClick={handleSubmit(handleUpdateCreateInstanceDialog)} disabled={!isValid}>Actualizar</Button> :
+                        <Button onClick={handleSubmit(handleAcceptCreateInstanceDialog)} disabled={!isValid}>Crear</Button>}
+                </DialogActions>
+            </Dialog>
+        )
     }
 
     return (
@@ -165,63 +263,7 @@ export default function () {
                     </Grid>
                 </Grid>
             </Grid>
-            <Dialog open={openCreateInstanceDialog}>
-                <DialogTitle>Crear un nuevo Anime</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Los siguientes datos son requeridos para registrar un nuevo anime.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Nombre del personaje"
-                        type="text"
-                        fullWidth
-                        variant="outlined"
-                        {...register("name", {required: "Este campo es requerido"})}
-                    />
-                    {errors.name && <span>Este campo es requerido</span>}
-                    <TextField
-                        margin="dense"
-                        id="birthDate"
-                        type="date"
-                        fullWidth
-                        variant="outlined"
-                        {...register("birthDate", {required: "Este campo es requerido"})}
-                    />
-                    {errors.birthDate && <><span>Este campo es requerido</span><br/></>}
-                    <Select
-                        margin="dense"
-                        labelId="Anime"
-                        id="anime"
-                        label="Anime"
-                        fullWidth
-                        variant="outlined"
-                        {...register("anime", {required: "Este campo es requerido"})}>
-                        {animes.map((anime: AnimeInterface) => {
-                            return <MenuItem key={anime.id} value={anime.id}>{anime.name}</MenuItem>
-                        })
-                        }
-                    </Select>
-                    <FormControlLabel
-                        id={"isMortal"}
-                        control={<Checkbox defaultChecked/>}
-                        label="¿Es Mortal?"
-                        {...register("isMortal")}
-                    />
-                    <FormControlLabel
-                        id={"isMarried"}
-                        control={<Checkbox defaultChecked/>}
-                        label="¿Está casado?"
-                        {...register("isMarried")}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCancelCreateInstanceDialog}>Cancel</Button>
-                    <Button onClick={handleSubmit(handleAcceptCreateInstanceDialog)} disabled={!isValid}>Subscribe</Button>
-                </DialogActions>
-            </Dialog>
+            {openDataDialog(character)}
         </Layout>
     )
 }
