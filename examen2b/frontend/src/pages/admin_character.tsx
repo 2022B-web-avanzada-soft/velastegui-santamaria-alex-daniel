@@ -133,15 +133,16 @@ export default function () {
 
     };
     const handleUpdateCreateInstanceDialog: SubmitHandler<Inputs> = data => {
+        console.log(data)
         const newCharacter: CharacterInterface = {
-            id: data.id,
+            id: character.id,
             name: data.name,
             isMortal: data.isMortal,
             birthDate: data.birthDate,
             isMarried: data.isMarried,
             anime: data.anime,
         }
-        axios.put(`${URL}/${newCharacter.id}`, newCharacter).then(r => {
+        axios.put(`${URL}/${character.id}`, newCharacter).then(r => {
             newCharacter.anime = animes.find((anime: AnimeInterface) => anime.id === newCharacter.anime);
             const newCharacters = characters.map((character: CharacterInterface) => {
                 if (character.id === newCharacter.id) {
@@ -160,8 +161,8 @@ export default function () {
         console.log("Create instance")
         setOpenCreateInstanceDialog(true);
     }
-    const handleEditInstance = (character: CharacterInterface) => {
-        setCharacter(character);
+    const handleEditInstance = (c: CharacterInterface) => {
+        setCharacter(c);
         setOpenCreateInstanceDialog(true);
     }
 
@@ -240,7 +241,7 @@ export default function () {
                 }}>
                     <Grid container alignContent={"center"}>
                         <Grid item md={8}>
-                            <h1>Gestionar Animes</h1>
+                            <h1>Gestionar Personajes</h1>
                         </Grid>
                         <Grid item md={4} sx={{
                             display: "flex",
