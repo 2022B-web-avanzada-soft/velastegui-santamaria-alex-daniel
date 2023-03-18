@@ -1,0 +1,123 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body #__next{
+    height: 100%;
+}
+
+#container {
+    min-height: 100%;
+    /* esto es para que funcione en navegadores antiguos */
+    position: relative;
+}
+
+#content {
+    padding-bottom: 50px; /* altura del footer */
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 150px; /* ajustar según la altura del footer */
+
+}
+
+.productosContainer{
+    background-color: rgba(0,0,0,0.59);
+    margin-right: 50px;
+    margin-left: 50px;
+    border-radius: 20px;
+}
+
+.productosTitulo{
+    color: black;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    margin-left: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.caracteritica{
+    color: white;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.datosProducto{
+    color: white;
+    font-size: 20px;
+    font-style: italic;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.imagenProductos{
+    width: 32px;
+}
+
+.botones{
+    margin-top: 12px;
+    padding: 0;
+}
+
+.nuevoProductoContainer{
+    margin-right: 50px;
+    margin-left: 60px;
+}
+
+.infoProducto{
+    margin-left: 10px;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.labelNuevo{
+    margin-left: 20px;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.inputStyle{
+    border-radius: 10px;
+    height: 30px;
+    width: 90%;
+}
+
+.labelCheckBox{
+    margin-top: 10px;
+    border-radius: 10px;
+    height: 30px;
+    width: 30px;
+}
+
+.titleCheckBox{
+    font-size: 25px;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.botonRegistro{
+    background-color: #F2D4BC;
+    font-size: 20px;
+    color: black;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+

@@ -1,0 +1,119 @@
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background: black;
+    color: white;
+}
+
+.contenedorFooter{
+    width: 100%;
+    display: inline-block;
+}
+
+.anterior {
+    margin-bottom: 50px; /* altura del footer */
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    background-color: #f0b75b;
+}
+
+
+.bienvenido{
+    background-color: black;
+    display: flex;
+    align-items: center;
+
+}
+
+.menu{
+    background-color: #F2D4BC;
+    position: relative;
+}
+
+.imageLeft {
+    margin-left: 20px ;
+    margin-right: 1rem;
+    width: 152px;
+}
+
+.imageRight {
+    margin-right: 20px ;
+    margin-left: 1rem;
+    width: 82px;
+}
+
+.text {
+    color: #F2D4BC;
+    flex: 1;
+    font-size: 48px;
+    margin: 0;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.elementos {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+}
+.elementosInterno{
+    text-decoration: none;
+    color: black;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.elementos.active {
+    background-color: black;
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+}
+
+.elementosInternoActivado{
+    color: #F2D4BC;
+    text-decoration: none;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.tituloFooter{
+    color: #F2D4BC;
+    flex: 1;
+    font-size: 32px;
+    margin: 0;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.textoFooter{
+    color: white;
+    flex: 1;
+    font-size: 20px;
+    margin: 0;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.imageFooter{
+
+    width: 20px;
+}
+.imageFooter2{
+    width: 31px;
+}
